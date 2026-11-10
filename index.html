@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Giardíase em cães e gatos</title>
+  <meta name="description" content="Folheto informativo sobre giardíase em cães e gatos: o que é, transmissão, diagnóstico, sinais clínicos, tratamento e prevenção.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1 class="reveal" style="--d:0"><span class="t">Giardíase</span><small>em cães e gatos</small></h1>
+
+    <div class="actions reveal" style="--d:1">
+      <button id="btnFull" class="btn btn-outline" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+        Ver em tela cheia
+      </button>
+      <a class="btn btn-solid" href="giardiase-caes-e-gatos.pdf" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+        Download
+      </a>
+    </div>
+  </header>
+
+  <nav class="chips reveal" style="--d:2" aria-label="Seções do folheto">
+    <span class="hint">Explore:</span>
+    <button class="chip" data-target="sec-oque">O que é?</button>
+    <button class="chip" data-target="sec-como">Como acontece?</button>
+    <button class="chip" data-target="sec-sinais">Sinais clínicos</button>
+    <button class="chip" data-target="sec-diag">Diagnóstico</button>
+    <button class="chip" data-target="sec-trat">Tratamento</button>
+    <button class="chip" data-target="sec-prev">Prevenção</button>
+  </nav>
+
+  <main>
+    <div class="viewer reveal" style="--d:3" id="viewer">
+      <div class="fs-bar">
+        <button id="btnFit" type="button">Ajustar à tela</button>
+        <button id="btnExit" type="button">Sair da tela cheia ✕</button>
+      </div>
+
+      <div class="sheet" id="sheet">
+        <img src="folheto.jpg" width="1600" height="2336"
+             alt="Folheto informativo sobre giardíase em cães e gatos: o que é, como acontece, diagnóstico, sinais clínicos, tratamento e prevenção.">
+
+        <!-- Áreas de destaque (coordenadas em pixels da imagem 1600×2336) -->
+        <div class="hot label-below" id="sec-titulo" data-label="Giardíase em cães e gatos" tabindex="0" style="--x:70;--y:190;--w:760;--h:345"></div>
+        <div class="hot" id="sec-oque"   data-label="O que é?"        tabindex="0" style="--x:95;--y:572;--w:740;--h:275"></div>
+        <div class="hot" id="sec-como"   data-label="Como acontece?"  tabindex="0" style="--x:95;--y:875;--w:740;--h:555"></div>
+        <div class="hot" id="sec-diag"   data-label="Diagnóstico"     tabindex="0" style="--x:95;--y:1445;--w:740;--h:240"></div>
+        <div class="hot label-below" id="sec-foto" data-label="Cães e gatos podem ser afetados" tabindex="0" style="--x:900;--y:180;--w:585;--h:585"></div>
+        <div class="hot" id="sec-sinais" data-label="Sinais clínicos" tabindex="0" style="--x:875;--y:800;--w:630;--h:535"></div>
+        <div class="hot" id="sec-trat"   data-label="Tratamento"      tabindex="0" style="--x:895;--y:1355;--w:615;--h:330"></div>
+        <div class="hot" id="sec-prev"   data-label="Prevenção"       tabindex="0" style="--x:105;--y:1718;--w:1392;--h:358"></div>
+        <div class="hot" id="sec-rodape" data-label="Importante!"     tabindex="0" style="--x:0;--y:2096;--w:1600;--h:240"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const viewer = document.getElementById('viewer');
+    const hots = [...document.querySelectorAll('.hot')];
+    const chips = [...document.querySelectorAll('.chip')];
+
+    /* ---------- Destaque das seções ---------- */
+    function setActive(id) {
+      hots.forEach(h => h.classList.toggle('active', h.id === id));
+      chips.forEach(c => c.classList.toggle('active', c.dataset.target === id));
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('mouseenter', () => setActive(chip.dataset.target));
+      chip.addEventListener('mouseleave', () => setActive(null));
+      chip.addEventListener('click', () => {
+        const target = document.getElementById(chip.dataset.target);
+        setActive(chip.dataset.target);
+        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+        target.classList.remove('pulse');
+        void target.offsetWidth;            // reinicia a animação
+        target.classList.add('pulse');
+        setTimeout(() => setActive(null), 2200);
+      });
+    });
+
+    hots.forEach(h => {
+      h.addEventListener('mouseenter', () => chips.forEach(c => c.classList.toggle('active', c.dataset.target === h.id)));
+      h.addEventListener('mouseleave', () => chips.forEach(c => c.classList.remove('active')));
+      // toque no celular: liga/desliga o destaque
+      h.addEventListener('click', () => setActive(h.classList.contains('active') ? null : h.id));
+    });
+    document.addEventListener('click', e => { if (!e.target.closest('.hot, .chip')) setActive(null); });
+
+    /* ---------- Tela cheia ---------- */
+    function enterFull() {
+      viewer.classList.add('full');
+      document.body.style.overflow = 'hidden';
+      try {
+        const p = viewer.requestFullscreen && viewer.requestFullscreen();
+        if (p && p.catch) p.catch(() => {});
+      } catch (e) {}
+    }
+    function exitFull() {
+      viewer.classList.remove('full', 'fit');
+      document.body.style.overflow = '';
+      document.getElementById('btnFit').textContent = 'Ajustar à tela';
+      try { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch (e) {}
+    }
+    document.getElementById('btnFull').addEventListener('click', enterFull);
+    document.getElementById('btnExit').addEventListener('click', exitFull);
+    document.getElementById('btnFit').addEventListener('click', e => {
+      const fit = viewer.classList.toggle('fit');
+      e.currentTarget.textContent = fit ? 'Largura total' : 'Ajustar à tela';
+    });
+    document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) exitFull(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && viewer.classList.contains('full')) exitFull(); });
+
+    /* ---------- Ondinha nos botões ---------- */
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const r = btn.getBoundingClientRect();
+        const size = Math.max(r.width, r.height);
+        const s = document.createElement('span');
+        s.className = 'ripple';
+        s.style.width = s.style.height = size + 'px';
+        s.style.left = (e.clientX - r.left - size / 2) + 'px';
+        s.style.top = (e.clientY - r.top - size / 2) + 'px';
+        btn.appendChild(s);
+        setTimeout(() => s.remove(), 650);
+      });
+    });
+
+    /* ---------- Rastro de patinhas seguindo o mouse ---------- */
+    if (!reduceMotion && matchMedia('(pointer: fine)').matches) {
+      const pawSVG = '<svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5" ry="4.2"/><ellipse cx="5.2" cy="10.5" rx="2.2" ry="2.8"/><ellipse cx="9.4" cy="6.2" rx="2.2" ry="2.9"/><ellipse cx="14.6" cy="6.2" rx="2.2" ry="2.9"/><ellipse cx="18.8" cy="10.5" rx="2.2" ry="2.8"/></svg>';
+      let lastX = null, lastY = null, side = 1;
+      const STEP = 46;
+
+      document.addEventListener('mousemove', e => {
+        if (lastX === null) { lastX = e.clientX; lastY = e.clientY; return; }
+        const dx = e.clientX - lastX, dy = e.clientY - lastY;
+        const dist = Math.hypot(dx, dy);
+        if (dist < STEP) return;
+
+        const angle = Math.atan2(dy, dx);
+        // alterna esquerda/direita como pegadas de verdade
+        const off = 7 * side; side *= -1;
+        const px = e.clientX + Math.cos(angle + Math.PI / 2) * off;
+        const py = e.clientY + Math.sin(angle + Math.PI / 2) * off;
+
+        const paw = document.createElement('span');
+        paw.className = 'paw' + (viewer.classList.contains('full') ? ' on-dark' : '');
+        paw.innerHTML = pawSVG;
+        paw.style.left = px + 'px';
+        paw.style.top = py + 'px';
+        paw.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
+        (document.fullscreenElement || document.body).appendChild(paw);
+        setTimeout(() => paw.remove(), 1150);
+
+        lastX = e.clientX; lastY = e.clientY;
+      });
+    }
+  </script>
+</body>
+</html>
