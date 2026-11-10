@@ -2,7 +2,9 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="only light">
+  <meta name="theme-color" content="#f6f3ec">
   <title>Giardíase em cães e gatos</title>
   <meta name="description" content="Folheto informativo sobre giardíase em cães e gatos: o que é, transmissão, diagnóstico, sinais clínicos, tratamento e prevenção.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
@@ -76,8 +78,8 @@
     }
 
     chips.forEach(chip => {
-      chip.addEventListener('mouseenter', () => setActive(chip.dataset.target));
-      chip.addEventListener('mouseleave', () => setActive(null));
+      chip.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') setActive(chip.dataset.target); });
+      chip.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') setActive(null); });
       chip.addEventListener('click', () => {
         const target = document.getElementById(chip.dataset.target);
         setActive(chip.dataset.target);
@@ -90,16 +92,29 @@
     });
 
     hots.forEach(h => {
-      h.addEventListener('mouseenter', () => chips.forEach(c => c.classList.toggle('active', c.dataset.target === h.id)));
-      h.addEventListener('mouseleave', () => chips.forEach(c => c.classList.remove('active')));
+      h.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') chips.forEach(c => c.classList.toggle('active', c.dataset.target === h.id)); });
+      h.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') chips.forEach(c => c.classList.remove('active')); });
       // toque no celular: liga/desliga o destaque
       h.addEventListener('click', () => setActive(h.classList.contains('active') ? null : h.id));
     });
     document.addEventListener('click', e => { if (!e.target.closest('.hot, .chip')) setActive(null); });
 
+    /* ---------- Efeitos de "hover" também no toque (celular) ---------- */
+    document.querySelectorAll('.btn, .chip, h1').forEach(el => {
+      let t;
+      el.addEventListener('pointerdown', e => {
+        if (e.pointerType === 'mouse') return;
+        el.classList.remove('hov'); void el.offsetWidth;
+        el.classList.add('hov');
+        clearTimeout(t);
+        t = setTimeout(() => el.classList.remove('hov'), el.tagName === 'H1' ? 1400 : 800);
+      });
+    });
+
     /* ---------- Tela cheia ---------- */
     function enterFull() {
       viewer.classList.add('full');
+      viewer.scrollTop = 0;
       document.body.style.overflow = 'hidden';
       try {
         const p = viewer.requestFullscreen && viewer.requestFullscreen();
@@ -136,36 +151,48 @@
       });
     });
 
-    /* ---------- Rastro de patinhas seguindo o mouse ---------- */
-    if (!reduceMotion && matchMedia('(pointer: fine)').matches) {
-      const pawSVG = '<svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5" ry="4.2"/><ellipse cx="5.2" cy="10.5" rx="2.2" ry="2.8"/><ellipse cx="9.4" cy="6.2" rx="2.2" ry="2.9"/><ellipse cx="14.6" cy="6.2" rx="2.2" ry="2.9"/><ellipse cx="18.8" cy="10.5" rx="2.2" ry="2.8"/></svg>';
-      let lastX = null, lastY = null, side = 1;
-      const STEP = 46;
+    /* ---------- Rastro de patinhas (mouse no PC, dedo no celular) ---------- */
+    const pawSVG = '<svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5" ry="4.2"/><ellipse cx="5.2" cy="10.5" rx="2.2" ry="2.8"/><ellipse cx="9.4" cy="6.2" rx="2.2" ry="2.9"/><ellipse cx="14.6" cy="6.2" rx="2.2" ry="2.9"/><ellipse cx="18.8" cy="10.5" rx="2.2" ry="2.8"/></svg>';
+    let lastX = null, lastY = null, side = 1;
 
-      document.addEventListener('mousemove', e => {
-        if (lastX === null) { lastX = e.clientX; lastY = e.clientY; return; }
-        const dx = e.clientX - lastX, dy = e.clientY - lastY;
-        const dist = Math.hypot(dx, dy);
-        if (dist < STEP) return;
-
-        const angle = Math.atan2(dy, dx);
-        // alterna esquerda/direita como pegadas de verdade
-        const off = 7 * side; side *= -1;
-        const px = e.clientX + Math.cos(angle + Math.PI / 2) * off;
-        const py = e.clientY + Math.sin(angle + Math.PI / 2) * off;
-
-        const paw = document.createElement('span');
-        paw.className = 'paw' + (viewer.classList.contains('full') ? ' on-dark' : '');
-        paw.innerHTML = pawSVG;
-        paw.style.left = px + 'px';
-        paw.style.top = py + 'px';
-        paw.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
-        (document.fullscreenElement || document.body).appendChild(paw);
-        setTimeout(() => paw.remove(), 1150);
-
-        lastX = e.clientX; lastY = e.clientY;
-      });
+    function dropPaw(x, y, angle, touch) {
+      const off = (touch ? 9 : 7) * side; side *= -1;   // alterna esquerda/direita como pegadas de verdade
+      const paw = document.createElement('span');
+      paw.className = 'paw' + (touch ? ' touch' : '') + (viewer.classList.contains('full') ? ' on-dark' : '');
+      paw.innerHTML = pawSVG;
+      paw.style.left = (x + Math.cos(angle + Math.PI / 2) * off) + 'px';
+      paw.style.top  = (y + Math.sin(angle + Math.PI / 2) * off) + 'px';
+      paw.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
+      (document.fullscreenElement || document.body).appendChild(paw);
+      setTimeout(() => paw.remove(), 1150);
     }
+
+    function trail(x, y, step, touch) {
+      if (lastX === null) { lastX = x; lastY = y; return; }
+      const dx = x - lastX, dy = y - lastY;
+      if (Math.hypot(dx, dy) < step) return;
+      dropPaw(x, y, Math.atan2(dy, dx), touch);
+      lastX = x; lastY = y;
+    }
+
+    // PC: segue o mouse
+    document.addEventListener('mousemove', e => {
+      if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return; // ignora mouse "simulado" pelo toque
+      trail(e.clientX, e.clientY, 46, false);
+    });
+
+    // Celular: segue o dedo (inclusive enquanto rola a página)
+    document.addEventListener('touchstart', e => {
+      const t = e.touches[0];
+      lastX = t.clientX; lastY = t.clientY;
+      dropPaw(t.clientX, t.clientY, -Math.PI / 2, true);   // pegadinha no ponto do toque
+    }, { passive: true });
+    document.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      trail(t.clientX, t.clientY, 34, true);
+    }, { passive: true });
+    document.addEventListener('touchend', () => { lastX = lastY = null; }, { passive: true });
+
   </script>
 </body>
 </html>

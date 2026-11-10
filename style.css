@@ -1,5 +1,6 @@
 /* ===== Giardíase em cães e gatos — estilos ===== */
 :root {
+  color-scheme: only light;   /* impede o "modo escuro forçado" do celular de mudar as cores */
   --bg: #f6f3ec;
   --ink: #1f4032;
   --green: #4e6b2a;
@@ -12,7 +13,8 @@
   --img-h: 2336;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+button { -webkit-appearance: none; appearance: none; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
@@ -21,6 +23,7 @@ body {
   color: var(--ink);
   font-family: Inter, system-ui, sans-serif;
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 /* ---------- Cabeçalho ---------- */
@@ -49,7 +52,8 @@ h1 .t {
   transition: background-size .45s ease;
   padding-bottom: 2px;
 }
-h1:hover .t { background-size: 100% 3px; }
+h1.hov .t { background-size: 100% 3px; }
+@media (hover: hover) { h1:hover .t { background-size: 100% 3px; } }
 h1 small {
   display: block;
   margin-top: 6px;
@@ -77,7 +81,8 @@ h1 small {
   transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
 }
 .btn svg { width: 18px; height: 18px; transition: transform .25s ease; }
-.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(31, 64, 50, .22); }
+.btn.hov { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(31, 64, 50, .22); }
+@media (hover: hover) { .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(31, 64, 50, .22); } }
 .btn:active { transform: translateY(0) scale(.97); }
 
 /* brilho que atravessa o botão */
@@ -90,16 +95,25 @@ h1 small {
   transform: skewX(-20deg);
   pointer-events: none;
 }
-.btn:hover::before { animation: shine .75s ease; }
+.btn.hov::before { animation: shine .75s ease; }
+@media (hover: hover) { .btn:hover::before { animation: shine .75s ease; } }
 @keyframes shine { to { left: 130%; } }
 
 .btn-outline { background: transparent; color: var(--ink); }
-.btn-outline:hover { background: var(--soft); }
-.btn-outline:hover svg { transform: scale(1.18); }
+.btn-outline.hov { background: var(--soft); }
+.btn-outline.hov svg { transform: scale(1.18); }
+@media (hover: hover) {
+  .btn-outline:hover { background: var(--soft); }
+  .btn-outline:hover svg { transform: scale(1.18); }
+}
 
 .btn-solid { background: var(--ink); color: #fff; }
-.btn-solid:hover { background: #2c5644; }
-.btn-solid:hover svg { animation: bounce .6s ease infinite alternate; }
+.btn-solid.hov { background: #2c5644; }
+.btn-solid.hov svg { animation: bounce .6s ease infinite alternate; }
+@media (hover: hover) {
+  .btn-solid:hover { background: #2c5644; }
+  .btn-solid:hover svg { animation: bounce .6s ease infinite alternate; }
+}
 @keyframes bounce { to { transform: translateY(3px); } }
 
 /* ondinha ao clicar */
@@ -135,11 +149,14 @@ h1 small {
   cursor: pointer;
   transition: background .2s, color .2s, border-color .2s, transform .15s;
 }
-.chip:hover, .chip.active {
+.chip.active, .chip.hov {
   background: var(--ink);
   border-color: var(--ink);
   color: #fff;
   transform: translateY(-2px);
+}
+@media (hover: hover) {
+  .chip:hover { background: var(--ink); border-color: var(--ink); color: #fff; transform: translateY(-2px); }
 }
 
 /* ---------- Folheto ---------- */
@@ -177,9 +194,12 @@ main { max-width: 920px; margin: 0 auto; padding: 16px 20px 56px; }
   z-index: 1;
 }
 /* destaque: só escurece suavemente o resto do folheto */
-.hot:hover, .hot.active, .hot:focus-visible {
+.hot.active, .hot:focus-visible {
   z-index: 3;
   box-shadow: 0 0 0 9999px var(--dim);
+}
+@media (hover: hover) {
+  .hot:hover { z-index: 3; box-shadow: 0 0 0 9999px var(--dim); }
 }
 
 /* ---------- Tela cheia ---------- */
@@ -193,19 +213,25 @@ main { max-width: 920px; margin: 0 auto; padding: 16px 20px 56px; }
   padding: 0;
   background: #14231c;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 .viewer.full .sheet { width: min(100%, 1100px); border-radius: 0; }
 .viewer.full.fit { align-items: center; overflow: hidden; }
-.viewer.full.fit .sheet { width: auto; height: 100vh; }
+.viewer.full.fit .sheet {
+  height: auto;
+  width: min(100%, calc(100vh * 1600 / 2336));
+  width: min(100%, calc(100dvh * 1600 / 2336));
+}
 .viewer.full .fs-bar {
   display: flex;
   gap: 8px;
   position: fixed;
-  top: 14px;
-  right: 14px;
+  top: calc(14px + env(safe-area-inset-top));
+  right: calc(14px + env(safe-area-inset-right));
   z-index: 60;
 }
 .fs-bar button {
@@ -248,14 +274,21 @@ main { max-width: 920px; margin: 0 auto; padding: 16px 20px 56px; }
 @keyframes reveal { to { opacity: 1; transform: none; } }
 
 
+/* patinhas um pouco maiores no toque, para o dedo não esconder */
+.paw.touch { width: 22px; height: 22px; margin: -11px 0 0 -11px; }
+
 @media (max-width: 560px) {
   header { padding-top: 24px; }
   .btn { flex: 1; justify-content: center; }
   .actions { width: 100%; }
   .viewer { padding: 8px; border-radius: 14px; }
+  .viewer.full .fs-bar { left: 10px; right: 10px; justify-content: flex-end; flex-wrap: wrap; }
+  .fs-bar button { padding: 8px 12px; font-size: 13px; }
 }
 
+/* Movimento reduzido: tira os deslocamentos grandes, mas mantém cores, fades e patinhas */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-  .reveal { opacity: 1; transform: none; }
+  html { scroll-behavior: auto; }
+  .reveal { transform: none; animation-name: fade-in; }
+  @keyframes fade-in { to { opacity: 1; } }
 }
