@@ -8,10 +8,24 @@
   <title>Giardíase em cães e gatos</title>
   <meta name="description" content="Folheto informativo sobre giardíase em cães e gatos: o que é, transmissão, diagnóstico, sinais clínicos, tratamento e prevenção.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Fontes do Google: só carregam se a pessoa não tiver recusado no aviso de cookies (LGPD) -->
+  <script>
+    (function () {
+      var recusou = false;
+      try { recusou = localStorage.getItem('gardiase-cookies') === 'recusado'; } catch (e) {}
+      var fontes = window.__gfonts = [
+      'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600&display=swap',
+      'https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap'
+      ];
+      if (recusou) return;
+      fontes.forEach(function (href) {
+        var l = document.createElement('link');
+        l.rel = 'stylesheet'; l.href = href; l.setAttribute('data-gfont', '');
+        document.head.appendChild(l);
+      });
+    })();
+  </script>
+  <link rel="stylesheet" href="lgpd.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -144,6 +158,14 @@
       </div>
     </div>
   </section>
+
+  <footer class="site-footer">
+    <p class="credits">
+      <span>© <span data-year>2026</span> Gardiase · Todos os direitos reservados.</span>
+      <span>Desenvolvido por <a href="https://github.com/thalyssxn" target="_blank" rel="noopener">thalyssxn</a></span>
+      <button class="lgpd-open" type="button">Privacidade e cookies</button>
+    </p>
+  </footer>
 
   <script>
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -329,5 +351,6 @@
     });
 
   </script>
+  <script src="lgpd.js"></script>
 </body>
 </html>

@@ -8,9 +8,23 @@
   <title>Canil Municipal de Angatuba-SP</title>
   <meta name="description" content="Conheça o canil municipal de Angatuba-SP: 27 cachorros, rotina, cuidados de saúde e o novo pet contêiner.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fontes do Google: só carregam se a pessoa não tiver recusado no aviso de cookies (LGPD) -->
+  <script>
+    (function () {
+      var recusou = false;
+      try { recusou = localStorage.getItem('gardiase-cookies') === 'recusado'; } catch (e) {}
+      var fontes = window.__gfonts = [
+      'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap'
+      ];
+      if (recusou) return;
+      fontes.forEach(function (href) {
+        var l = document.createElement('link');
+        l.rel = 'stylesheet'; l.href = href; l.setAttribute('data-gfont', '');
+        document.head.appendChild(l);
+      });
+    })();
+  </script>
+  <link rel="stylesheet" href="lgpd.css">
   <link rel="stylesheet" href="angatuba.css">
 </head>
 <body>
@@ -380,6 +394,11 @@
       Voltar para o folheto de Giardíase
     </a>
     <p>Canil Municipal de Angatuba-SP · Rodovia João Ciriaco Ramos</p>
+    <p class="credits">
+      <span>© <span data-year>2026</span> Gardiase · Todos os direitos reservados.</span>
+      <span>Desenvolvido por <a href="https://github.com/thalyssxn" target="_blank" rel="noopener">thalyssxn</a></span>
+      <button class="lgpd-open" type="button">Privacidade e cookies</button>
+    </p>
   </footer>
 
   <script>
@@ -624,5 +643,6 @@
     }, { passive: true });
     document.addEventListener('touchend', () => { lastX = lastY = null; }, { passive: true });
   </script>
+  <script src="lgpd.js"></script>
 </body>
 </html>
