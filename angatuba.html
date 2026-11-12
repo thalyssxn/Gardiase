@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="only light">
+  <meta name="theme-color" content="#1f4032">
+  <title>Canil Municipal de Angatuba-SP</title>
+  <meta name="description" content="Conheça o canil municipal de Angatuba-SP: 27 cachorros, rotina, cuidados de saúde e o novo pet contêiner.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="angatuba.css">
+</head>
+<body>
+
+  <!-- ===== Barra de cima com o botão de voltar ===== -->
+  <nav class="topbar">
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      <span>Voltar para Giardíase</span>
+    </a>
+    <div class="toplinks">
+      <a href="#baias">Baias</a>
+      <a href="#rotina">Rotina</a>
+      <a href="#saude">Saúde</a>
+      <a href="#container">Pet contêiner</a>
+      <a href="#contato">Contato</a>
+    </div>
+  </nav>
+
+  <!-- ===== Abertura ===== -->
+  <header class="hero">
+    <div class="hero-text">
+      <span class="kicker"><span class="dot"></span> Abrigo · Angatuba-SP</span>
+      <h1>Canil Municipal <em>de Angatuba</em></h1>
+      <p class="lead">Conheça como vivem os cães acolhidos pelo canil da cidade: onde ficam, a rotina do dia a dia, os cuidados de saúde e a novidade que chega no ano que vem.</p>
+      <a class="addr" href="https://www.google.com/maps/search/?api=1&query=Rodovia+Jo%C3%A3o+Ciriaco+Ramos%2C+Angatuba+-+SP" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Rodovia João Ciriaco Ramos · Angatuba-SP
+        <span class="addr-go">ver no mapa ↗</span>
+      </a>
+    </div>
+
+    <div class="hero-stat" aria-label="27 cachorros vivem no canil">
+      <div class="ring">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="ring-bg" cx="100" cy="100" r="88"/>
+          <circle class="ring-fg" id="ringFg" cx="100" cy="100" r="88"/>
+        </svg>
+        <div class="ring-in">
+          <b class="num" data-count="27">0</b>
+          <span>cachorros</span>
+        </div>
+        <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
+      </div>
+    </div>
+
+    <ul class="facts">
+      <li><span class="f-ico">💧</span> Água à vontade</li>
+      <li><span class="f-ico">🥣</span> Ração 2× ao dia</li>
+      <li><span class="f-ico">⏱️</span> Recreio de 15 min</li>
+      <li><span class="f-ico">💉</span> Vacinação anual</li>
+    </ul>
+  </header>
+
+  <main>
+
+    <!-- ===== 27 baias ===== -->
+    <section id="baias" class="sec" data-reveal>
+      <div class="sec-head">
+        <span class="sec-num">01</span>
+        <h2>Cada um no <em>seu cantinho</em></h2>
+        <p>São <b>27 cachorros</b>, e eles <b>não vivem juntos</b>: se ficassem no mesmo espaço, poderia dar briga. Por isso cada um tem a sua baia. Toque em um cachorro para dar um oi.</p>
+      </div>
+
+      <div class="kennel-box">
+        <div class="kennel-bar">
+          <div class="k-status" id="kStatus" aria-live="polite">Cada baia tem <b>15 minutos</b> de recreio.</div>
+          <button class="pill-btn" id="btnRecreio" type="button">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span>Hora do recreio</span>
+          </button>
+        </div>
+        <div class="kennels" id="kennels"></div>
+        <div class="yard" id="yard" aria-hidden="true">
+          <span class="yard-label">Recreio</span>
+          <div class="yard-dog" id="yardDog"></div>
+          <div class="yard-timer"><span id="yardTime">15:00</span><i id="yardBar"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Planta da baia ===== -->
+    <section id="planta" class="sec" data-reveal>
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <h2>Como é <em>uma baia</em></h2>
+        <p>Cada cão vive em uma baia de <b>5 m × 2 m</b>, com mais <b>3 m de solário</b> para tomar sol. Toque nas partes da planta para ver os detalhes.</p>
+      </div>
+
+      <div class="plan-wrap">
+        <svg class="plan" id="plan" viewBox="0 0 860 300" role="img" aria-label="Planta da baia: 5 metros por 2 metros, mais 3 metros de solário">
+          <defs>
+            <pattern id="floor" width="22" height="22" patternUnits="userSpaceOnUse">
+              <rect width="22" height="22" fill="#efe6d4"/>
+              <path d="M0 22h22M22 0v22" stroke="#e2d6bf" stroke-width="1.5"/>
+            </pattern>
+            <pattern id="grass" width="16" height="16" patternUnits="userSpaceOnUse">
+              <rect width="16" height="16" fill="#fbe7b0"/>
+              <circle cx="4" cy="5" r="1.4" fill="#f3d27e"/>
+              <circle cx="12" cy="12" r="1.4" fill="#f3d27e"/>
+            </pattern>
+          </defs>
+
+          <!-- baia -->
+          <g class="zone" id="zBaia" data-info="baia" tabindex="0">
+            <rect x="30" y="40" width="500" height="200" rx="6" fill="url(#floor)" stroke="#1f4032" stroke-width="5"/>
+            <!-- caminha -->
+            <rect x="60" y="70" width="110" height="74" rx="22" fill="#c8673a" opacity=".85"/>
+            <rect x="72" y="82" width="86" height="50" rx="16" fill="#e08a5c"/>
+            <!-- potes -->
+            <g transform="translate(90 190)">
+              <ellipse rx="26" ry="14" fill="#2f5d46"/><ellipse rx="19" ry="9" fill="#8cc7e8"/>
+            </g>
+            <g transform="translate(160 192)">
+              <ellipse rx="26" ry="14" fill="#c8673a"/><ellipse rx="19" ry="9" fill="#9a5a2e"/>
+              <circle cx="-6" cy="-1" r="3" fill="#6d3f1f"/><circle cx="4" cy="2" r="3" fill="#6d3f1f"/><circle cx="8" cy="-3" r="3" fill="#6d3f1f"/>
+            </g>
+            <text x="300" y="110" class="z-title">BAIA</text>
+            <text x="300" y="138" class="z-sub">5 m × 2 m</text>
+          </g>
+
+          <!-- solário -->
+          <g class="zone" id="zSol" data-info="sol" tabindex="0">
+            <rect x="530" y="40" width="300" height="200" rx="6" fill="url(#grass)" stroke="#1f4032" stroke-width="5" stroke-dasharray="14 9"/>
+            <g class="sun-ico" transform="translate(770 90)">
+              <circle r="20" fill="#f0b542"/>
+              <g stroke="#f0b542" stroke-width="5" stroke-linecap="round">
+                <path d="M0-34v-8M0 34v8M-34 0h-8M34 0h8M24-24l6-6M-24 24l-6 6M24 24l6 6M-24-24l-6-6"/>
+              </g>
+            </g>
+            <text x="650" y="110" class="z-title">SOLÁRIO</text>
+            <text x="650" y="138" class="z-sub">+ 3 m</text>
+          </g>
+
+          <!-- grade/abertura entre baia e solário -->
+          <rect x="524" y="105" width="12" height="70" rx="3" fill="#f7f1e6"/>
+
+          <!-- cachorro que passeia pela planta -->
+          <g id="planDog" class="plan-dog" style="transform: translate(400px, 192px)"></g>
+
+          <!-- cotas -->
+          <g class="dims">
+            <path d="M30 268h500M30 260v16M530 260v16" />
+            <text x="280" y="292">5 m</text>
+            <path d="M530 268h300M830 260v16" />
+            <text x="680" y="292">3 m</text>
+            <path d="M14 40v200M6 40h16M6 240h16" />
+            <text x="-140" y="10" transform="rotate(-90)">2 m</text>
+          </g>
+        </svg>
+
+        <aside class="plan-info" id="planInfo" aria-live="polite">
+          <h3>Toque na planta</h3>
+          <p>Escolha a <b>baia</b> ou o <b>solário</b> para saber mais.</p>
+        </aside>
+      </div>
+
+      <div class="plan-actions">
+        <button class="pill-btn ghost" id="btnPlanDog" type="button">Levar o cachorro ao solário ☀️</button>
+      </div>
+    </section>
+
+    <!-- ===== Rotina ===== -->
+    <section id="rotina" class="sec" data-reveal>
+      <div class="sec-head">
+        <span class="sec-num">03</span>
+        <h2>A <em>rotina</em> do dia</h2>
+        <p>Toque nos cartões para ver cada momento.</p>
+      </div>
+
+      <div class="routine">
+        <button class="r-card r-water" type="button">
+          <div class="r-art" aria-hidden="true">
+            <svg viewBox="0 0 120 90">
+              <ellipse cx="60" cy="64" rx="46" ry="18" fill="#2f5d46"/>
+              <ellipse cx="60" cy="56" rx="38" ry="12" fill="#8cc7e8" class="water"/>
+              <path class="drop" d="M60 6c6 10 10 15 10 21a10 10 0 0 1-20 0c0-6 4-11 10-21z" fill="#5fa8d3"/>
+            </svg>
+          </div>
+          <h3>Água à vontade</h3>
+          <p>O pote fica sempre com água, o dia inteiro.</p>
+        </button>
+
+        <button class="r-card r-food" type="button">
+          <div class="r-art" aria-hidden="true">
+            <svg viewBox="0 0 120 90">
+              <g transform="translate(34 60)">
+                <ellipse rx="26" ry="12" fill="#c8673a"/><ellipse cy="-5" rx="20" ry="7" fill="#9a5a2e"/>
+                <g class="kib k1"><circle cx="-8" cy="-8" r="3.5"/><circle cx="2" cy="-10" r="3.5"/><circle cx="9" cy="-6" r="3.5"/></g>
+              </g>
+              <g transform="translate(88 60)">
+                <ellipse rx="26" ry="12" fill="#c8673a"/><ellipse cy="-5" rx="20" ry="7" fill="#9a5a2e"/>
+                <g class="kib k2"><circle cx="-8" cy="-8" r="3.5"/><circle cx="2" cy="-10" r="3.5"/><circle cx="9" cy="-6" r="3.5"/></g>
+              </g>
+              <text x="34" y="22" class="r-n">1ª</text>
+              <text x="88" y="22" class="r-n">2ª</text>
+            </svg>
+          </div>
+          <h3>Ração 2× ao dia</h3>
+          <p>Duas refeições por dia para cada cachorro.</p>
+        </button>
+
+        <button class="r-card r-play" type="button">
+          <div class="r-art" aria-hidden="true">
+            <svg viewBox="0 0 120 90">
+              <circle cx="60" cy="48" r="32" fill="#fff" stroke="#1f4032" stroke-width="5"/>
+              <rect x="54" y="6" width="12" height="9" rx="2" fill="#1f4032"/>
+              <circle class="clock-arc" cx="60" cy="48" r="22" fill="none" stroke="#f0b542" stroke-width="12" pathLength="100" stroke-dasharray="25 100" transform="rotate(-90 60 48)"/>
+              <path class="hand" d="M60 48V26" stroke="#1f4032" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="60" cy="48" r="4" fill="#1f4032"/>
+            </svg>
+          </div>
+          <h3>Recreio de 15 min</h3>
+          <p>Cada baia tem a sua vez de sair para brincar.</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== Caminhão da ração ===== -->
+    <section id="racao" class="sec sec-dark" data-reveal>
+      <div class="sec-head">
+        <span class="sec-num">04</span>
+        <h2>Ração <em>garantida</em></h2>
+        <p>A cada <b>2 semanas</b> o caminhão da prefeitura chega com a ração. Segundo os funcionários do canil, ela <b>nunca chegou a faltar</b>.</p>
+      </div>
+
+      <div class="road-box">
+        <div class="weeks" id="weeks" aria-label="Entregas a cada duas semanas">
+          <div class="wk"><span>Semana 1</span><i>🚚</i></div>
+          <div class="wk"><span>Semana 2</span></div>
+          <div class="wk"><span>Semana 3</span><i>🚚</i></div>
+          <div class="wk"><span>Semana 4</span></div>
+          <div class="wk"><span>Semana 5</span><i>🚚</i></div>
+          <div class="wk"><span>Semana 6</span></div>
+        </div>
+
+        <div class="road">
+          <div class="kennel-house" aria-hidden="true">
+            <svg viewBox="0 0 120 100"><path d="M10 50 60 12l50 38v46H10z" fill="#f7f1e6"/><path d="M4 52 60 8l56 44" fill="none" stroke="#c8673a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 96V66a14 14 0 0 1 28 0v30z" fill="#1f4032"/></svg>
+            <div class="stock"><b id="sacks">0</b> sacos</div>
+          </div>
+          <div class="truck" id="truck" aria-hidden="true">
+            <svg viewBox="0 0 220 110">
+              <rect x="6" y="20" width="132" height="62" rx="6" fill="#f7f1e6"/>
+              <text x="72" y="58" text-anchor="middle" class="truck-txt">RAÇÃO</text>
+              <path d="M138 38h42l28 26v18h-70z" fill="#f0b542"/>
+              <path d="M150 44h26l18 18h-44z" fill="#bfe0f0"/>
+              <rect x="6" y="80" width="202" height="8" rx="3" fill="#33473d"/>
+              <g class="wheel"><circle cx="44" cy="90" r="15" fill="#1b2620"/><circle cx="44" cy="90" r="6" fill="#c9c9c9"/><path d="M44 78v24" stroke="#c9c9c9" stroke-width="3"/></g>
+              <g class="wheel"><circle cx="170" cy="90" r="15" fill="#1b2620"/><circle cx="170" cy="90" r="6" fill="#c9c9c9"/><path d="M170 78v24" stroke="#c9c9c9" stroke-width="3"/></g>
+            </svg>
+          </div>
+          <div class="asphalt"><i></i></div>
+        </div>
+
+        <div class="road-actions">
+          <button class="pill-btn sun" id="btnTruck" type="button">🚚 Chamar o caminhão</button>
+          <span class="never">Ração em falta: <b>nunca</b></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Saúde ===== -->
+    <section id="saude" class="sec" data-reveal>
+      <div class="sec-head">
+        <span class="sec-num">05</span>
+        <h2>Saúde e <em>cuidados</em></h2>
+        <p>Toque nos cartões para virar.</p>
+      </div>
+
+      <div class="flips">
+        <button class="flip" type="button">
+          <span class="face ff"><span class="fl-ico">💊</span><b>Vermifugação</b><small>a cada 6 meses</small></span>
+          <span class="face fb"><b>2× por ano</b>Os cães recebem remédio contra vermes a cada seis meses.</span>
+        </button>
+        <button class="flip" type="button">
+          <span class="face ff"><span class="fl-ico">💉</span><b>Vacinação</b><small>1× por ano</small></span>
+          <span class="face fb"><b>Anual</b>A vacinação é feita pela veterinária da prefeitura.</span>
+        </button>
+        <button class="flip" type="button">
+          <span class="face ff"><span class="fl-ico">🧑‍🌾</span><b>Tratadores</b><small>contratados</small></span>
+          <span class="face fb"><b>Equipe própria</b>O canil tem tratadores contratados para cuidar dos cães.</span>
+        </button>
+        <button class="flip" type="button">
+          <span class="face ff"><span class="fl-ico">🛡️</span><b>Alambrado</b><small>cerca de tela</small></span>
+          <span class="face fb"><b>Proteção</b>O canil é cercado por telas de alambrado, que impedem a entrada de outros animais.</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== De onde vêm ===== -->
+    <section id="origem" class="sec" data-reveal>
+      <div class="sec-head">
+        <span class="sec-num">06</span>
+        <h2>Como eles <em>chegam</em></h2>
+        <p>Geralmente os cães são recolhidos depois de <b>denúncias</b> ou em casos de <b>maus-tratos</b>.</p>
+      </div>
+
+      <ol class="path">
+        <li><span class="p-ico">📣</span><b>Denúncia</b><small>alguém avisa sobre um animal em risco</small></li>
+        <li><span class="p-ico">🚐</span><b>Recolhimento</b><small>o cão é retirado da situação</small></li>
+        <li><span class="p-ico">🏡</span><b>Canil</b><small>ganha baia, água, comida e cuidados</small></li>
+      </ol>
+
+      <div class="alert">
+        <span class="alert-ico">⚠️</span>
+        <p><b>Maus-tratos a animais é crime</b> (Lei 9.605/98, art. 32). Se você presenciar, denuncie.</p>
+      </div>
+    </section>
+
+    <!-- ===== Pet contêiner ===== -->
+    <section id="container" class="sec" data-reveal>
+      <div class="cont-card">
+        <div class="cont-text">
+          <span class="badge">Novidade · inauguração no ano que vem</span>
+          <h2>Pet <em>contêiner</em></h2>
+          <p>Este ano o canil ganhou um <b>pet contêiner</b>, que será inaugurado no ano que vem. Ele vai servir para <b>procedimentos veterinários</b> para os animais de <b>pessoas de baixa renda</b>.</p>
+          <button class="pill-btn sun" id="btnCont" type="button">Abrir as portas</button>
+        </div>
+        <div class="cont-art" id="contArt" aria-hidden="true">
+          <div class="box">
+            <div class="inside">
+              <div class="cross"></div>
+              <span class="heart">❤</span>
+            </div>
+            <div class="door left"><i></i><i></i><i></i><i></i></div>
+            <div class="door right"><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="ground"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contato ===== -->
+    <section id="contato" class="sec" data-reveal>
+      <div class="sec-head">
+        <span class="sec-num">07</span>
+        <h2>Fale com o <em>canil</em></h2>
+        <p>Contato da Secretaria do Meio Ambiente e Agricultura, responsável pelo canil.</p>
+      </div>
+
+      <div class="contact">
+        <div class="c-who">
+          <span class="c-avatar">🐶</span>
+          <div>
+            <b>Secretaria Canil</b>
+            <small>Secretaria do Meio Ambiente e Agricultura</small>
+            <a class="c-phone" href="tel:+5515996041675">+55 15 99604-1675</a>
+          </div>
+        </div>
+        <div class="c-actions">
+          <a class="pill-btn wa" href="https://wa.me/5515996041675" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3z"/></svg>
+            WhatsApp
+          </a>
+          <a class="pill-btn ghost" href="tel:+5515996041675">Ligar</a>
+          <a class="pill-btn ghost" href="https://www.google.com/maps/search/?api=1&query=Rodovia+Jo%C3%A3o+Ciriaco+Ramos%2C+Angatuba+-+SP" target="_blank" rel="noopener">Ver no mapa</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <a class="back big" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      Voltar para o folheto de Giardíase
+    </a>
+    <p>Canil Municipal de Angatuba-SP · Rodovia João Ciriaco Ramos</p>
+  </footer>
+
+  <script>
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canHover = matchMedia('(hover: hover)').matches;
+    const $ = s => document.querySelector(s);
+
+    /* ---------- Desenho dos cachorrinhos ---------- */
+    const FURS = [
+      ['#c98b4f', '#f3dfc2'], ['#3a2f2a', '#c49a6c'], ['#e9d6b4', '#fff6e8'], ['#8a5a3b', '#e7c49b'],
+      ['#f2efe8', '#ffffff'], ['#6f6f6f', '#d8d8d8'], ['#d9a066', '#fbe6c8'], ['#2b2b2b', '#f1f1f1'],
+      ['#a8682f', '#f5d7ad']
+    ];
+    function dogSVG(i) {
+      const [fur, snout] = FURS[(i * 7 + Math.floor(i / 9)) % FURS.length];
+      const ear = (i * 2 + Math.floor(i / 5)) % 3;                     // 0 caída, 1 em pé, 2 meio caída
+      const dark = shade(fur, -28);
+      const patch = (i * 5) % 7 === 1 ? `<ellipse cx="38" cy="28" rx="6.5" ry="6" fill="${dark}"/>` : '';
+      let ears;
+      if (ear === 0) ears = `<ellipse cx="13" cy="30" rx="6" ry="13" transform="rotate(18 13 30)" fill="${dark}"/><ellipse cx="47" cy="30" rx="6" ry="13" transform="rotate(-18 47 30)" fill="${dark}"/>`;
+      else if (ear === 1) ears = `<path d="M12 26 15 6l12 13z" fill="${dark}"/><path d="M48 26 45 6 33 19z" fill="${dark}"/>`;
+      else ears = `<path d="M11 26 13 9l13 9z" fill="${dark}"/><path d="M13 9l-5 9 6 1z" fill="${dark}"/><path d="M49 26 47 9 34 18z" fill="${dark}"/><path d="M47 9l5 9-6 1z" fill="${dark}"/>`;
+      return `<svg viewBox="0 0 60 60" class="dog">
+        <g class="ears">${ears}</g>
+        <ellipse cx="30" cy="33" rx="17" ry="16" fill="${fur}"/>
+        ${patch}
+        <ellipse cx="30" cy="41" rx="9.5" ry="7.5" fill="${snout}"/>
+        <g class="eyes"><circle cx="23" cy="29" r="2.6" fill="#1b1b1b"/><circle cx="37" cy="29" r="2.6" fill="#1b1b1b"/>
+        <circle cx="23.8" cy="28.2" r=".9" fill="#fff"/><circle cx="37.8" cy="28.2" r=".9" fill="#fff"/></g>
+        <ellipse cx="30" cy="37" rx="3.8" ry="2.7" fill="#1b1b1b"/>
+        <path d="M30 39.5v2.5M26 43q4 3 8 0" stroke="#1b1b1b" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path class="tongue" d="M28 43.5h4v3a2 2 0 0 1-4 0z" fill="#e8677a"/>
+      </svg>`;
+    }
+    function shade(hex, amt) {
+      const n = parseInt(hex.slice(1), 16);
+      const c = v => Math.max(0, Math.min(255, v + amt));
+      return '#' + [c(n >> 16), c((n >> 8) & 255), c(n & 255)].map(v => v.toString(16).padStart(2, '0')).join('');
+    }
+
+    /* ---------- 27 baias ---------- */
+    const kennels = $('#kennels');
+    const cells = [];
+    for (let i = 0; i < 27; i++) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'kennel';
+      b.style.setProperty('--i', i);
+      b.setAttribute('aria-label', `Baia ${i + 1}`);
+      b.innerHTML = `<span class="k-num">${String(i + 1).padStart(2, '0')}</span>${dogSVG(i)}<span class="bubble">Au!</span>`;
+      b.addEventListener('click', () => {
+        b.classList.remove('bark'); void b.offsetWidth; b.classList.add('bark');
+        setTimeout(() => b.classList.remove('bark'), 900);
+      });
+      kennels.appendChild(b);
+      cells.push(b);
+    }
+
+    // recreio: cada baia sai na sua vez (15 min, acelerado)
+    const btnRecreio = $('#btnRecreio');
+    const kStatus = $('#kStatus');
+    const yard = $('#yard'), yardDog = $('#yardDog'), yardTime = $('#yardTime'), yardBar = $('#yardBar');
+    let recreio = null, turn = 0;
+    const TURN_MS = reduceMotion ? 1600 : 2200;
+
+    function runTurn() {
+      cells.forEach(c => c.classList.remove('out'));
+      const c = cells[turn];
+      c.classList.add('out');
+      yardDog.innerHTML = dogSVG(turn);
+      yard.classList.remove('go'); void yard.offsetWidth; yard.classList.add('go', 'on');
+      kStatus.innerHTML = `<b>Baia ${String(turn + 1).padStart(2, '0')}</b> está no recreio`;
+      const t0 = performance.now();
+      (function tick(now) {
+        if (!recreio) return;
+        const p = Math.min(1, (now - t0) / TURN_MS);
+        const secs = Math.round((1 - p) * 15 * 60);
+        yardTime.textContent = `${String(Math.floor(secs / 60)).padStart(2, '0')}:${String(secs % 60).padStart(2, '0')}`;
+        yardBar.style.width = (100 - p * 100) + '%';
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+      turn = (turn + 1) % 27;
+    }
+    function stopRecreio() {
+      clearInterval(recreio); recreio = null;
+      cells.forEach(c => c.classList.remove('out'));
+      yard.classList.remove('on', 'go');
+      btnRecreio.classList.remove('on');
+      btnRecreio.querySelector('span').textContent = 'Hora do recreio';
+      btnRecreio.querySelector('svg').innerHTML = '<path d="M8 5v14l11-7z"/>';
+      kStatus.innerHTML = 'Cada baia tem <b>15 minutos</b> de recreio.';
+    }
+    btnRecreio.addEventListener('click', () => {
+      if (recreio) return stopRecreio();
+      btnRecreio.classList.add('on');
+      btnRecreio.querySelector('span').textContent = 'Parar';
+      btnRecreio.querySelector('svg').innerHTML = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+      recreio = setInterval(runTurn, TURN_MS);
+      runTurn();
+    });
+
+    /* ---------- Planta da baia ---------- */
+    const INFO = {
+      baia: ['Baia · 5 m × 2 m', 'O espaço de cada cachorro. Ali ficam a caminha, o pote de <b>água à vontade</b> e o pote onde a ração é servida <b>2 vezes ao dia</b>.'],
+      sol:  ['Solário · + 3 m', 'Um espaço a mais, colado na baia, para o cachorro <b>tomar sol</b> e esticar as pernas.']
+    };
+    const planInfo = $('#planInfo');
+    const zones = document.querySelectorAll('.zone');
+    function showZone(z) {
+      zones.forEach(o => o.classList.toggle('active', o === z));
+      const [t, d] = INFO[z.dataset.info];
+      planInfo.innerHTML = `<h3>${t}</h3><p>${d}</p>`;
+      planInfo.classList.remove('pop'); void planInfo.offsetWidth; planInfo.classList.add('pop');
+    }
+    zones.forEach(z => {
+      z.addEventListener('click', () => showZone(z));
+      z.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showZone(z); } });
+      z.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') showZone(z); });
+    });
+
+    const planDog = $('#planDog');
+    planDog.innerHTML = dogSVG(0).replace('<svg viewBox="0 0 60 60" class="dog">', '<g transform="translate(-36 -36) scale(1.2)">').replace('</svg>', '</g>');
+    let inSun = false;
+    const btnPlanDog = $('#btnPlanDog');
+    btnPlanDog.addEventListener('click', () => {
+      inSun = !inSun;
+      planDog.classList.add('walk');
+      planDog.style.transform = inSun ? 'translate(690px, 192px)' : 'translate(400px, 192px)';
+      setTimeout(() => planDog.classList.remove('walk'), 1300);
+      btnPlanDog.textContent = inSun ? 'Voltar para a baia 🏠' : 'Levar o cachorro ao solário ☀️';
+      showZone(inSun ? $('#zSol') : $('#zBaia'));
+    });
+
+    /* ---------- Rotina ---------- */
+    document.querySelectorAll('.r-card').forEach(c => {
+      c.addEventListener('click', () => {
+        c.classList.remove('play'); void c.offsetWidth; c.classList.add('play');
+      });
+      c.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { c.classList.remove('play'); void c.offsetWidth; c.classList.add('play'); } });
+    });
+
+    /* ---------- Caminhão da ração ---------- */
+    const truck = $('#truck'), sacks = $('#sacks'), btnTruck = $('#btnTruck');
+    const weeks = [...document.querySelectorAll('.wk')];
+    let total = 0, wk = 0, driving = false;
+    function drive() {
+      if (driving) return;
+      driving = true;
+      truck.classList.remove('drive'); void truck.offsetWidth; truck.classList.add('drive');
+      weeks.forEach(w => w.classList.remove('now'));
+      weeks[wk].classList.add('now');
+      wk = (wk + 2) % weeks.length;
+      setTimeout(() => {
+        const target = total + 20;
+        const step = () => { total++; sacks.textContent = total; if (total < target) setTimeout(step, 40); };
+        step();
+        $('.kennel-house').classList.remove('got'); void sacks.offsetWidth; $('.kennel-house').classList.add('got');
+      }, reduceMotion ? 200 : 1500);
+      setTimeout(() => { driving = false; }, reduceMotion ? 600 : 3000);
+    }
+    btnTruck.addEventListener('click', drive);
+
+    /* ---------- Cartões que viram ---------- */
+    document.querySelectorAll('.flip').forEach(f => f.addEventListener('click', () => f.classList.toggle('flipped')));
+
+    /* ---------- Pet contêiner ---------- */
+    const contArt = $('#contArt'), btnCont = $('#btnCont');
+    btnCont.addEventListener('click', () => {
+      const open = contArt.classList.toggle('open');
+      btnCont.textContent = open ? 'Fechar as portas' : 'Abrir as portas';
+    });
+    contArt.addEventListener('click', () => btnCont.click());
+
+    /* ---------- Contador e aparecer ao rolar ---------- */
+    function countUp(el) {
+      const end = +el.dataset.count, t0 = performance.now(), dur = reduceMotion ? 1 : 1600;
+      const ring = $('#ringFg');
+      (function tick(now) {
+        const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(end * e);
+        ring.style.strokeDashoffset = 553 * (1 - e);
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }
+    setTimeout(() => countUp($('.num')), 350);
+
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('in');
+      io.unobserve(en.target);
+    }), { threshold: .12 });
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+    /* ---------- Ondinha nos botões ---------- */
+    document.querySelectorAll('.pill-btn, .back').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const r = btn.getBoundingClientRect();
+        const size = Math.max(r.width, r.height);
+        const s = document.createElement('span');
+        s.className = 'ripple';
+        s.style.width = s.style.height = size + 'px';
+        s.style.left = (e.clientX - r.left - size / 2) + 'px';
+        s.style.top = (e.clientY - r.top - size / 2) + 'px';
+        btn.appendChild(s);
+        setTimeout(() => s.remove(), 650);
+      });
+    });
+
+    /* ---------- Rastro de patinhas (mesmo efeito do folheto) ---------- */
+    const pawSVG = '<svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="16" rx="5" ry="4.2"/><ellipse cx="5.2" cy="10.5" rx="2.2" ry="2.8"/><ellipse cx="9.4" cy="6.2" rx="2.2" ry="2.9"/><ellipse cx="14.6" cy="6.2" rx="2.2" ry="2.9"/><ellipse cx="18.8" cy="10.5" rx="2.2" ry="2.8"/></svg>';
+    let lastX = null, lastY = null, side = 1;
+    function dropPaw(x, y, angle, touch) {
+      const off = (touch ? 9 : 7) * side; side *= -1;
+      const paw = document.createElement('span');
+      paw.className = 'paw' + (touch ? ' touch' : '');
+      paw.innerHTML = pawSVG;
+      paw.style.left = (x + Math.cos(angle + Math.PI / 2) * off) + 'px';
+      paw.style.top = (y + Math.sin(angle + Math.PI / 2) * off) + 'px';
+      paw.style.transform = `rotate(${angle * 180 / Math.PI + 90}deg)`;
+      document.body.appendChild(paw);
+      setTimeout(() => paw.remove(), 1150);
+    }
+    function trail(x, y, step, touch) {
+      if (lastX === null) { lastX = x; lastY = y; return; }
+      const dx = x - lastX, dy = y - lastY;
+      if (Math.hypot(dx, dy) < step) return;
+      dropPaw(x, y, Math.atan2(dy, dx), touch);
+      lastX = x; lastY = y;
+    }
+    document.addEventListener('mousemove', e => {
+      if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+      trail(e.clientX, e.clientY, 46, false);
+    });
+    document.addEventListener('touchstart', e => {
+      const t = e.touches[0];
+      lastX = t.clientX; lastY = t.clientY;
+      dropPaw(t.clientX, t.clientY, -Math.PI / 2, true);
+    }, { passive: true });
+    document.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      trail(t.clientX, t.clientY, 34, true);
+    }, { passive: true });
+    document.addEventListener('touchend', () => { lastX = lastY = null; }, { passive: true });
+  </script>
+</body>
+</html>

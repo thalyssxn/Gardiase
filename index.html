@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -64,6 +65,53 @@
       </div>
     </div>
   </main>
+
+  <!-- ===== Banners: abrigos parceiros (não mexem no folheto) ===== -->
+  <section class="parceiros" aria-labelledby="parc-tit">
+    <div class="parc-head" data-reveal>
+      <span class="parc-kicker">Abrigos que você pode ajudar</span>
+      <h2 id="parc-tit">Conheça também</h2>
+    </div>
+
+    <div class="banners">
+      <a class="banner b-aatan" data-reveal href="https://aatansorocaba.vercel.app/" target="_blank" rel="noopener">
+        <span class="b-glow" aria-hidden="true"></span>
+        <div class="b-text">
+          <span class="b-tag"><img src="img/aatan/logo.jpg" alt="" width="34" height="34"> AATAN · Sorocaba-SP</span>
+          <h3>Adote ou doe: <em>um gesto de amor</em> muda uma vida!</h3>
+          <p>Cães e gatos esperando por um lar. Veja quem está disponível para adoção e como ajudar com ração, remédios ou qualquer valor.</p>
+          <span class="b-cta">Visitar o site da AATAN
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="b-art polaroids" aria-hidden="true">
+          <figure style="--i:0"><img src="img/aatan/scott.jpg" alt="" loading="lazy"><figcaption>Scott</figcaption></figure>
+          <figure style="--i:1"><img src="img/aatan/sofia.jpg" alt="" loading="lazy"><figcaption>Sofia</figcaption></figure>
+          <figure style="--i:2"><img src="img/aatan/chokito.jpg" alt="" loading="lazy"><figcaption>Chokito</figcaption></figure>
+          <figure style="--i:3"><img src="img/aatan/cora.jpg" alt="" loading="lazy"><figcaption>Cora</figcaption></figure>
+          <img class="pol-logo" src="img/aatan/logo.jpg" alt="" width="70" height="70">
+        </div>
+      </a>
+
+      <a class="banner b-ang" data-reveal href="angatuba.html">
+        <span class="b-glow" aria-hidden="true"></span>
+        <div class="b-text">
+          <span class="b-tag"><span class="b-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7M5 10v10h14V10M10 20v-5h4v5"/></svg>
+          </span> Canil municipal · Angatuba-SP</span>
+          <h3>27 cães, <em>cada um</em> no seu cantinho</h3>
+          <p>Como vivem os cachorros do canil de Angatuba: a rotina, os cuidados de saúde e o novo pet contêiner.</p>
+          <span class="b-cta">Conhecer o canil
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </div>
+        <div class="b-art kennels" aria-hidden="true">
+          <div class="k-grid" id="kGrid"></div>
+          <span class="k-count"><b>27</b> baias</span>
+        </div>
+      </a>
+    </div>
+  </section>
 
   <script>
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -192,6 +240,61 @@
       trail(t.clientX, t.clientY, 34, true);
     }, { passive: true });
     document.addEventListener('touchend', () => { lastX = lastY = null; }, { passive: true });
+
+    /* ---------- Banners dos abrigos ---------- */
+    // 27 baias em miniatura no banner de Angatuba
+    const kGrid = document.getElementById('kGrid');
+    for (let i = 0; i < 27; i++) {
+      const c = document.createElement('span');
+      c.className = 'k-cell';
+      c.style.setProperty('--i', i);
+      c.innerHTML = pawSVG;
+      kGrid.appendChild(c);
+    }
+
+    // aparecem ao rolar até eles
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      el.classList.add('in');
+      io.unobserve(el);
+      // celular (sem mouse): o banner "brinca" sozinho quando aparece na tela
+      if (el.classList.contains('banner') && !matchMedia('(hover: hover)').matches) {
+        setTimeout(() => el.classList.add('hov'), 500);
+        setTimeout(() => el.classList.remove('hov'), 2600);
+      }
+    }), { threshold: .35 });
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+    // inclinação 3D + brilho que segue o mouse
+    document.querySelectorAll('.banner').forEach(b => {
+      b.addEventListener('pointermove', e => {
+        if (e.pointerType !== 'mouse') return;
+        const r = b.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        b.style.setProperty('--mx', (px * 100) + '%');
+        b.style.setProperty('--my', (py * 100) + '%');
+        if (!reduceMotion) {
+          b.style.setProperty('--ry', ((px - .5) * 7) + 'deg');
+          b.style.setProperty('--rx', ((.5 - py) * 7) + 'deg');
+        }
+      });
+      b.addEventListener('pointerleave', () => {
+        b.style.setProperty('--rx', '0deg');
+        b.style.setProperty('--ry', '0deg');
+      });
+      // no celular: o toque mostra a animação antes de abrir
+      let t;
+      b.addEventListener('pointerdown', e => {
+        if (e.pointerType === 'mouse') return;
+        const r = b.getBoundingClientRect();
+        b.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        b.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+        b.classList.add('hov');
+        clearTimeout(t);
+        t = setTimeout(() => b.classList.remove('hov'), 1600);
+      });
+    });
 
   </script>
 </body>
